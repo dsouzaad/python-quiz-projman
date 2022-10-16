@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from PySide6.QtWidgets import (QApplication, QMainWindow)
-from oop_test_model import oop_questions
+
 
 # Class for controlling the GUI
 
