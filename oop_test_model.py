@@ -29,19 +29,20 @@ class Question:
     def info(self) -> str:
         """Returns information about the question"""
         return self._info
+    
+    @property
+    def pixmap_filename(self) -> str:
+        return f"code_snip{self.order}.png"
 
 @dataclass
-class QuestionsList:
-    """Class representing a set of questions"""
-    _questions = list
+class QuestionSet:
+    """Class representing a question in the quiz"""
+    _questions: list
 
     @property
     def questions(self) -> list:
+        """Returns a list of questions"""
         return self._questions
-
-#@dataclass
-#class Reward:
-    
 
 @dataclass
 class Player:
@@ -84,24 +85,28 @@ class Player:
         """Can update accuracy"""
         self._accuracy = new_accuracy
 
-
-oop_questions = QuestionsList([
+# Create a list of questions
+oop_questions = QuestionSet(
+    [
     Question(1, "", {}, ""),
-    Question(2, "", {}),
-    Question(3, "", {}),
-    Question(4, "", {}),
-    Question(5, "", {}),
-    Question(6, "", {}),
-    Question(7, "", {}),
-    Question(8, "", {}),
-    Question(9, "", {}),
-    Question(10, "", {}),
-    Question(11, "", {}),
-    Question(12, "", {}),
-    Question(13, "", {}),
-    Question(14, "", {}),
-    Question(15, "", {}),
-    Question(16, "", {}),
-    Question(17, "", {}),
-    Question(18, "", {}),
-])
+    Question(2, "", {}, ""),
+    Question(3, "", {}, ""),
+    Question(4, "", {}, ""),
+    Question(5, "", {}, ""),
+    Question(6, "", {}, ""),
+    Question(7, "", {}, ""),
+    Question(8, "", {}, ""),
+    Question(9, "", {}, ""),
+    Question(10, "", {}, ""),
+    Question(11, "", {}, ""),
+    Question(12, "", {}, ""),
+    Question(13, "", {}, ""),
+    Question(14, "", {}, ""),
+    Question(15, "", {}, ""),
+    Question(16, "", {}, ""),
+    Question(17, "", {}, ""),
+    Question(18, "", {}, ""),
+    ]
+)
+
+current_question_index = 0
