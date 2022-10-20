@@ -5,15 +5,15 @@ from dataclasses import dataclass
 @dataclass
 class Question:
     """Class representing a question in the quiz"""
-    _order: int
+    _index: int
     _question: str
     _answers: dict
     _info: str
 
     @property
-    def order(self) -> int:
+    def index(self) -> int:
         """Returns the place of the question in the question order"""
-        return self._order
+        return self._index
 
     @property
     def question(self) -> str:
@@ -29,10 +29,28 @@ class Question:
     def info(self) -> str:
         """Returns information about the question"""
         return self._info
+
+    @property
+    def answer_list(self) -> list:
+        """Returns a list of answers for a question"""
+        answer_list = []
+        for answer in self.answers.keys():
+            answer_list.append(answer)
+        return answer_list
+
+    @property
+    def get_correct_answer(self) -> str:
+        """Returns the correct answer as a string"""
+        for answer in self.answers.keys():
+            # Get the value of the key, if value is true, the answer is correct
+            value = self.answers[answer]
+            if value == True:
+                correct_answer = answer
+        return correct_answer
     
     @property
     def pixmap_filename(self) -> str:
-        return f"code_snip{self.order}.png"
+        return f"code_snip{self.index}.png"
 
 @dataclass
 class QuestionSet:
@@ -44,51 +62,10 @@ class QuestionSet:
         """Returns a list of questions"""
         return self._questions
 
-@dataclass
-class Player:
-    """Class representing a quiz taker"""
-    _name: str
-    _points: 100
-    _accuracy: float
-
-    @property
-    def name(self) -> str:
-        """Returns player's name"""
-        return self._name
-
-    @name.setter
-    def name(self, new_name):
-        """Player name can be changed to another string"""
-        if len(new_name) > 0:
-            self._name = new_name
-        else:
-            raise ValueError("Cannot change player name to an empty string")
-    
-    @property
-    def points(self) -> float:
-        """Return the user's points"""
-        return self._points
-
-    #DON'T KNOW THAT THIS WILL WORK, WE'LL SEE
-    @points.setter
-    def points(self, new_points):
-        """Can update points"""
-        self._points = new_points
-
-    @property
-    def accuracy(self) -> float:
-        """Returns percentage of correctly answered questions by the player"""
-        return f"{self._accuracy}%"
-    
-    @accuracy.setter
-    def accuracy(self, new_accuracy):
-        """Can update accuracy"""
-        self._accuracy = new_accuracy
-
 # Create a list of questions
 oop_questions = QuestionSet(
     [
-    Question(1, "", {}, ""),
+    Question(1, "Question goes here", {"1" : False, "2" : True, "3" : False}, "Info about question goes here"),
     Question(2, "", {}, ""),
     Question(3, "", {}, ""),
     Question(4, "", {}, ""),
@@ -108,5 +85,4 @@ oop_questions = QuestionSet(
     Question(18, "", {}, ""),
     ]
 )
-
-current_question_index = 0
+current_question_index = 1

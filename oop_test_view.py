@@ -1,4 +1,5 @@
-from PySide6.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout, QLabel, QPushButton)
+from os import fsdecode
+from PySide6.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout, QLabel, QPushButton, QRadioButton)
 from oop_test_model import oop_questions
 from oop_test_controller import OOPQuestionController
 
@@ -6,13 +7,29 @@ from oop_test_controller import OOPQuestionController
 app = QApplication()
 main_window = QMainWindow()
 main_window.setWindowTitle("OOP Quiz")
-main_window.resize(500, 500)
+main_window.resize(700, 500)
+
+secondary_window = QMainWindow()
+secondary_window.setWindowTitle("Hilo")
+
 
 # Set up main widget
 main_widget = QWidget()
 main_window.setCentralWidget(main_widget)
 main_layout = QVBoxLayout()
 main_widget.setLayout(main_layout)
+
+# Set up second window widget
+secondary_widget = QWidget()
+secondary_window.setCentralWidget(secondary_widget)
+secondary_layout = QVBoxLayout()
+secondary_widget.setLayout(secondary_layout)
+
+answer_status_label = QLabel() # Displays if selected answer is right or wrong
+question_info_label = QLabel() # Displays information about the question
+secondary_layout.addWidget(answer_status_label)
+secondary_layout.addWidget(question_info_label)
+
 
 # Set up initial page
 dialouge_label = QLabel("Welcome to the OOP Quiz!\n Start by entering your name")
@@ -23,14 +40,14 @@ main_layout.addWidget(next_button)
 # Set up question page
 code_snip_label = QLabel()
 question_label = QLabel()
-answer_one_button = QPushButton()
-answer_two_button = QPushButton()
-answer_three_button = QPushButton()
+answer_one_button = QRadioButton()
+answer_two_button = QRadioButton()
+answer_three_button = QRadioButton()
 submit_button = QPushButton("Submit")
 
 
 # Set up controller
-controller = OOPQuestionController(main_layout, dialouge_label, next_button, code_snip_label, question_label, answer_one_button, answer_two_button, answer_three_button, submit_button)
+controller = OOPQuestionController(main_layout, dialouge_label, next_button, code_snip_label, question_label, answer_one_button, answer_two_button, answer_three_button, submit_button, secondary_window, answer_status_label, question_info_label)
 
 main_window.show()
 app.exec()
