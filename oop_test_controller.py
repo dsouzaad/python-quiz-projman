@@ -18,6 +18,9 @@ class OOPQuestionController:
     secondary_window: QMainWindow
     answer_status_label: QLabel
     question_info_label: QLabel
+    reward_info_label: QLabel
+    certain_reward_button: QPushButton
+    uncertain_reward_button: QPushButton
 
     def next_button_clicked(self, checked: bool):
         # Explain game in slides
@@ -39,7 +42,11 @@ class OOPQuestionController:
         else:
             string_index = how_to_play.index(self.dialouge_label.text())
             self.dialouge_label.setText(how_to_play[string_index + 1])
-        
+        # User starts with 100 points, on the first question, if they answer correctly they get another 100
+        global points
+        points = 100
+        global points_receivable
+        points_receivable = 100
         # for functionality/development, (back and forth with buttons)
     
     def get_current_question(self):
@@ -59,7 +66,6 @@ class OOPQuestionController:
             self.main_layout.removeWidget(self.next_button)
             self.dialouge_label.deleteLater()
             self.next_button.deleteLater()
-
         # Set up question page
         self.main_layout.addWidget(self.code_snip_label)
         self.main_layout.addWidget(self.question_label)
@@ -82,7 +88,10 @@ class OOPQuestionController:
         # Add answers from a dictionary to buttons
         global answer_list
         answer_list = current_question.answer_list 
-
+        # Reset the answer status
+        global answer_status
+        answer_status = ""
+        # Add answer text to buttons
         for button in answer_buttons:
             index = answer_buttons.index(button)
             answer = answer_list[index]
@@ -100,7 +109,6 @@ class OOPQuestionController:
         correct_answer = self.get_current_question().get_correct_answer
         # Check if the answer is correct and store result in a variable
         global answer_status
-        answer_status = ""
         if current_answer == correct_answer:
             answer_status = True
         else:
@@ -112,12 +120,14 @@ class OOPQuestionController:
     def submit_button_clicked(self, checked: bool):
         # Check that a radio button has been selected
         if answer_status == "":
-            print("answer is empty")
-            #QMessageBox(QMessageBox.Icon.Warning, f"Error", f"Please select an answer before moving on")
+            QMessageBox(QMessageBox.Icon.Warning, f"Error", f"Please select an answer before moving on")
         else:
             # clear all the question page widgets
             # bring up a window saying if answer is correct or not, post informational dialouge
             self.secondary_window.show()
+            global points
+            global points_receivable
+            global points_deductable
             if answer_status == True:
                 self.answer_status_label.setText("Correct")
             else:
@@ -126,16 +136,22 @@ class OOPQuestionController:
             info = self.get_current_question().info
             self.question_info_label.setText(info)
 
-            
-
-            # for usability, show the correct answer if answer is wrong
-            # reset answer status
-            
-            
-
-        # Increment current index
+        # Increment current index # Reset the answer status for the next question
         current_question_index =+ 1 
-        # Reset the answer status for the next question
+        # for usability, show the correct answer if answer is wrong
+
+    def certain_reward_button_clicked(self):
+        """If user chooses the certain reward, set their points receivable to 100"""
+        global points_receivable
+        points_receivable = 100
+        
+    def uncertain_reward_button_clicked(self):
+        """If user chooses the uncertain reward, they either double their points or halve them"""
+        global points
+        global points_receivable
+        global points_deductable
+        points_receivable = points * 2
+        points_deductable = points / 2
 
 
     def __post_init__(self):
@@ -145,14 +161,10 @@ class OOPQuestionController:
         self.answer_two_button.clicked.connect(self.answer_button_clicked)
         self.answer_three_button.clicked.connect(self.answer_button_clicked)
         self.submit_button.clicked.connect(self.submit_button_clicked)
-# Ask Question
-# Show code snippet and buttons for answers
+        self.certain_reward_button.clicked.connect(self.certain_reward_button_clicked)
+        self.uncertain_reward_button.clicked.connect(self.uncertain_reward_button_clicked)
 
-# Mark answer, if answer is wrong, explain how, add 100 points
-
-# Offer a randomised reward
-
-# Loop, update points and percentage
+# Loop, update points
 
 # Once all questions are asked, show end messages
 # Show leaderboard
