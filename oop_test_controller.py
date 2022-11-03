@@ -9,6 +9,7 @@ class OOPQuestionController:
     main_layout: QVBoxLayout
     dialouge_label: QLabel
     next_button: QPushButton 
+    points_label: QLabel
     code_snip_label: QLabel
     question_label: QLabel
     answer_one_button: QRadioButton
@@ -34,7 +35,7 @@ class OOPQuestionController:
         ]
         # Set text based on what is currently in the dialouge label
         # If its showing the welcome message
-        if self.dialouge_label.text() == ("Welcome to the OOP Quiz!\n Start by entering your name"):
+        if self.dialouge_label.text() == ("Welcome to the OOP Quiz!"):
             self.dialouge_label.setText(how_to_play[0])
         # If its showing the last message,bring up first question 
         elif self.dialouge_label.text() == how_to_play[len(how_to_play) - 1]:
@@ -42,11 +43,13 @@ class OOPQuestionController:
         else:
             string_index = how_to_play.index(self.dialouge_label.text())
             self.dialouge_label.setText(how_to_play[string_index + 1])
-        # User starts with 100 points, on the first question, if they answer correctly they get another 100
+        # User starts with 100 points, on the first question, if they answer correctly they get another 100, incorrect, they get no points
         global points
         points = 100
         global points_receivable
         points_receivable = 100
+        global points_deductable
+        points_deductable = 0
         # for functionality/development, (back and forth with buttons)
     
     def get_current_question(self):
@@ -60,6 +63,7 @@ class OOPQuestionController:
     
     def show_question(self):
         global current_question_index
+        print(current_question_index)
         # Clear the starting page layout only if it is on the layout
         if current_question_index == 1:
             self.main_layout.removeWidget(self.dialouge_label)
@@ -67,6 +71,7 @@ class OOPQuestionController:
             self.dialouge_label.deleteLater()
             self.next_button.deleteLater()
         # Set up question page
+        self.main_layout.addWidget(self.points_label)
         self.main_layout.addWidget(self.code_snip_label)
         self.main_layout.addWidget(self.question_label)
         self.main_layout.addWidget(self.answer_one_button)
@@ -88,6 +93,9 @@ class OOPQuestionController:
         # Add answers from a dictionary to buttons
         global answer_list
         answer_list = current_question.answer_list 
+        # Display points
+        global points
+        self.points_label.setText(str(points))
         # Reset the answer status
         global answer_status
         answer_status = ""
@@ -130,14 +138,14 @@ class OOPQuestionController:
             global points_deductable
             if answer_status == True:
                 self.answer_status_label.setText("Correct")
+                points += points_receivable
             else:
                 self.answer_status_label.setText("Incorrect")
+                points -= points_deductable
             # Display info about the current question
             info = self.get_current_question().info
             self.question_info_label.setText(info)
 
-        # Increment current index # Reset the answer status for the next question
-        current_question_index =+ 1 
         # for usability, show the correct answer if answer is wrong
 
     def certain_reward_button_clicked(self):
@@ -145,14 +153,28 @@ class OOPQuestionController:
         global points_receivable
         points_receivable = 100
         
+        # Increment current index # Reset the answer status for the next question
+        global current_question_index
+        new_question_index = current_question_index + 1
+        current_question_index = new_question_index
+        # Ask next question
+        self.secondary_window.hide()
+        self.show_question()
+        
     def uncertain_reward_button_clicked(self):
         """If user chooses the uncertain reward, they either double their points or halve them"""
         global points
         global points_receivable
         global points_deductable
-        points_receivable = points * 2
+        points_receivable = points
         points_deductable = points / 2
-
+        # Increment current index # Reset the answer status for the next question
+        global current_question_index
+        new_question_index = current_question_index + 1
+        current_question_index = new_question_index
+        # Ask next question
+        self.secondary_window.hide()
+        self.show_question()
 
     def __post_init__(self):
         """Connect signal functions to GUI"""

@@ -23,7 +23,7 @@ main_widget.setLayout(main_layout)
 secondary_widget = QWidget()
 secondary_window.setCentralWidget(secondary_widget)
 secondary_layout = QVBoxLayout()
-secondary_widget.setLayout(secondary_layout)
+secondary_widget.setLayout(secondary_layout) 
 
 answer_status_label = QLabel() # Displays if selected answer is right or wrong
 question_info_label = QLabel() # Displays information about the question
@@ -39,12 +39,13 @@ secondary_layout.addWidget(certain_reward_button)
 secondary_layout.addWidget(uncertain_reward_button)
 
 # Set up initial page
-dialouge_label = QLabel("Welcome to the OOP Quiz!\n Start by entering your name")
+dialouge_label = QLabel("Welcome to the OOP Quiz!")
 next_button = QPushButton("Next")
 main_layout.addWidget(dialouge_label)
 main_layout.addWidget(next_button)
 
 # Set up question page
+points_label = QLabel()
 code_snip_label = QLabel()
 question_label = QLabel()
 answer_one_button = QRadioButton()
@@ -54,7 +55,7 @@ submit_button = QPushButton("Submit")
 
 
 # Set up controller
-controller = OOPQuestionController(main_layout, dialouge_label, next_button, code_snip_label, question_label, answer_one_button, answer_two_button, answer_three_button, submit_button, secondary_window, answer_status_label, question_info_label, reward_info_label, certain_reward_button, uncertain_reward_button)
+controller = OOPQuestionController(main_layout, dialouge_label, next_button, points_label, code_snip_label, question_label, answer_one_button, answer_two_button, answer_three_button, submit_button, secondary_window, answer_status_label, question_info_label, reward_info_label, certain_reward_button, uncertain_reward_button)
 
 main_window.show()
 app.exec()

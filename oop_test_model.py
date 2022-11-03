@@ -65,12 +65,12 @@ class QuestionSet:
 # Create a list of questions
 oop_questions = QuestionSet(
     [
-    Question(1, "Question goes here", {"1" : False, "2" : True, "3" : False}, "Info about question goes here"),
-    Question(2, "", {}, ""),
-    Question(3, "", {}, ""),
-    Question(4, "", {}, ""),
-    Question(5, "", {}, ""),
-    Question(6, "", {}, ""),
+    Question(1, "1. How can the Members be protected?", {"Put an Underscore ( _ ) before each Member" : True, "Put Brackets around each Member" : False, "Double Underscores before and after each Member is defined" : False}, "Info about question 1 goes here"),
+    Question(2, "2. What is the function of this code?", {"Setter: allows the ‘type’ Member to be changed to a valid input" : False, "Returns the variables ‘self’ and ‘type’" : False, "Getter: it allows the ‘type’ Member to be accessed safely" : True}, "Info about question 2 goes here"),
+    Question(3, "Question  3 goes here", {"7" : False, "8" : True, "9" : False}, "Info about question 3 goes here"),
+    Question(4, "Question  4 goes here", {"7" : False, "8" : True, "9" : False}, "Info about question 4 goes here"),
+    Question(5, "Question  5 goes here", {"7" : False, "8" : True, "9" : False}, "Info about question 5 goes here"),
+    Question(6, "Question  6 goes here", {"7" : False, "8" : True, "9" : False}, "Info about question 6 goes here"),
     Question(7, "", {}, ""),
     Question(8, "", {}, ""),
     Question(9, "", {}, ""),
